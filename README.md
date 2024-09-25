@@ -7,7 +7,6 @@ My custom NixOs configuration for WSL
 Make sure the following is installed for this quickstart.
 
 * WSL version 2
-* docker-Desktop
 * vscode #optional
 
 ### 1.Install NixOs
@@ -55,34 +54,7 @@ See samples folder for configuration files for nix shell for dev environments
 
 I have no idea how nix flakes work.
 
-If you are using windows terminal add the following aliases to split window and tabs if you want to preserve the current working directory
-
-settings.json
-
-
- 	{ 
-	    "command": "duplicateTab",
-	    "keys": "ctrl+shift+d" 
-	},
-	{ 
-	    "command": {
-            "action": "splitPane",
-            "splitMode": "duplicate",
-            "split": "vertical"
-	    },
-	    "keys": "ctrl+shift+n"
-	},
-	{ 
-	    "command": {
-            "action": "splitPane",
-            "splitMode": "duplicate",
-            "split": "horizontal"
-	    },
-	    "keys": "ctrl+shift+m"
-	}
-
-
-WSL2 DNS fix
+### WSL2 DNS fix
 
 Set the following in your `.wslconf`
 

@@ -28,7 +28,6 @@
       # Core Development Packages
       awscli2
       python312Packages.ansible-core
-      docker
       kubectl
       kubectx
       kubelogin
@@ -38,6 +37,7 @@
       python3
       postgresql
       eksctl
+      lazygit
 
       # LSP's for neovim
       terraform-ls
@@ -61,6 +61,7 @@
       flyctl
       sops
       gnupg
+      podman
 
       # Development
       go
@@ -93,12 +94,7 @@
     wslConf.boot.command = ""; #Default startup commands
     wslConf.user.default = username;
 
-    # Docker-desktop workaround to work with WSL
-    # Enable WSL integration on docker desktop
-    # https://github.com/nix-community/NixOS-WSL/issues/235
-    docker-desktop.enable = false;
     extraBin = with pkgs; [
-      # Binaries for Docker Desktop wsl-distro-proxy
       { src = "${coreutils}/bin/mkdir"; }
       { src = "${coreutils}/bin/cat"; }
       { src = "${coreutils}/bin/whoami"; }
@@ -108,26 +104,13 @@
       { src = "${coreutils}/bin/dirname"; }
       { src = "${coreutils}/bin/readlink"; }
       { src = "${coreutils}/bin/sed"; }
+
+      #Allows .sh files to be run
       { src = "/run/current-system/sw/bin/sed"; }
       { src = "${su}/bin/groupadd"; }
       { src = "${su}/bin/usermod"; }
     ];
   };
-  
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = true;
-    autoPrune.enable = true;
-  };
-
-  virtualisation.docker.rootless = {
-    enable = true;
-    setSocketVariable = true;
-  };
-
-  systemd.services.docker-desktop-proxy.script = lib.mkForce ''
-    ${config.wsl.wslConf.automount.root}/wsl/docker-desktop/docker-desktop-user-distro proxy --docker-desktop-root ${config.wsl.wslConf.automount.root}/wsl/docker-desktop "C:\Program Files\Docker\Docker\resources"
-  '';
   
   networking.nameservers = ["8.8.8.8" "1.1.1.1"];
 
@@ -149,8 +132,32 @@
     alias kctp='kc top pods --containers -l app.kubernetes.io/instance='
     export EDITOR="nvim"
     export KUBE_CONFIG_PATH=~/.kube/config
+    export PODMAN_IGNORE_CGROUPSV1_WARNING=true
     PROMPT_COMMAND=${prompt_command}'printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"'
   '';
+
+  # Setup podman
+  environment.etc."containers/registries.conf" = {
+    text = ''
+      unqualified-search-registries = ["docker.io"]
+    '';
+  };
+
+  environment.etc."containers/policy.json" = {
+    text = ''
+      {
+        "default": [{
+            "type": "insecureAcceptAnything"
+          }],
+        "transports":{
+            "docker-daemon":{
+                "": [{"type":"insecureAcceptAnything"}]
+            }
+         }
+      }
+    '';
+  };
+
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

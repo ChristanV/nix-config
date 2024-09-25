@@ -28,6 +28,7 @@
       # Core Development Packages
       awscli2
       python312Packages.ansible-core
+      virtualenv
       kubectl
       kubectx
       kubelogin

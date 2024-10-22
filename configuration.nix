@@ -63,11 +63,14 @@
       sops
       gnupg
       podman
+      k9s
 
       # Development
       go
       nodejs_22
       typescript
+      lua
+      zig
     ];
   imports = [
     # Include NixOS-WSL modules

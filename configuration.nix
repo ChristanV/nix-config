@@ -63,6 +63,7 @@
       sops
       gnupg
       podman
+      podman-compose
       k9s
 
       # Development

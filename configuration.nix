@@ -35,6 +35,7 @@
       git
       azure-cli
       terraform
+      terragrunt
       python3
       postgresql
       eksctl
@@ -54,6 +55,7 @@
       pyright
       gopls
       nodePackages.typescript-language-server
+      helm-ls
 
       # Other
       fd
@@ -125,6 +127,7 @@
     alias kctx='kubectx'
     alias kns='kubens'
     alias tf='terraform'
+    alias tg='terragrunt'
     alias vi='nvim .'
     alias nixr='sudo nixos-rebuild switch'
     alias nixb='nixos-rebuild build'

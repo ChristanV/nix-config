@@ -24,22 +24,25 @@
       kubernetes-helm
       openssl
       go-task
-
-      # Core Development Packages
-      awscli2
-      python312Packages.ansible-core
       virtualenv
       kubectl
       kubectx
       kubelogin
       git
       azure-cli
-      terraform
-      terragrunt
-      python312Full
       postgresql
       eksctl
       lazygit
+      fd
+      ripgrep
+      chromium
+      flyctl
+      sops
+      gnupg
+      podman
+      podman-compose
+      k9s
+      ssm-session-manager-plugin
 
       # LSP's for neovim
       terraform-ls
@@ -58,34 +61,16 @@
       nodePackages.typescript-language-server
       helm-ls
 
-      # Other
-      fd
-      ripgrep
-      chromium
-      flyctl
-      sops
-      gnupg
-      podman
-      podman-compose
-      k9s
-      graphviz
-      python312Packages.diagrams
-      libpng
-      glow
-      gtk3
-      qt5.full
-      imagemagick
-      ssm-session-manager-plugin
-
-
       # Development
+      terraform
+      terragrunt
+      python312Full
+      python312Packages.ansible-core
       go
       nodejs_22
       typescript
       lua
-      zig
       yarn
-      deno
     ];
   imports = [
     # Include NixOS-WSL modules

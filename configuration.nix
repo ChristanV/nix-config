@@ -36,13 +36,14 @@
       azure-cli
       terraform
       terragrunt
-      python3
+      python312Full
       postgresql
       eksctl
       lazygit
 
       # LSP's for neovim
       terraform-ls
+      terraform-lsp
       tflint
       yaml-language-server
       ansible-language-server
@@ -67,6 +68,15 @@
       podman
       podman-compose
       k9s
+      graphviz
+      python312Packages.diagrams
+      libpng
+      glow
+      gtk3
+      qt5.full
+      imagemagick
+      ssm-session-manager-plugin
+
 
       # Development
       go
@@ -74,6 +84,8 @@
       typescript
       lua
       zig
+      yarn
+      deno
     ];
   imports = [
     # Include NixOS-WSL modules
@@ -91,6 +103,11 @@
   services.vscode-server.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  users.groups.podman = {};
+  users.users."${username}" = {
+    extraGroups = [ "podman" ];
+  };
   
   # Base WSL setup
   wsl = {
@@ -119,6 +136,7 @@
     ];
   };
   
+  # DNS fix for WSL2
   networking.nameservers = ["8.8.8.8" "1.1.1.1"];
 
   # Set bash aliases and default editor
@@ -138,6 +156,11 @@
     alias kcgp='kc get pods -l app.kubernetes.io/instance='
     alias kcgd='kc get deploy -l app.kubernetes.io/instance='
     alias kctp='kc top pods --containers -l app.kubernetes.io/instance='
+
+    # Workaround alias
+    alias docker='sudo podman'
+    alias docker-compose='sudo podman compose'
+
     export EDITOR="nvim"
     export KUBE_CONFIG_PATH=~/.kube/config
     export PODMAN_IGNORE_CGROUPSV1_WARNING=true

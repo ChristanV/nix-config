@@ -26,7 +26,7 @@ channel-update:
 	@nix-channel --update
 
 cleanup:
-	@nix-collect-garbage -d
+	@nix-collect-garbage -d --delete-older-than 10d
 
 upgrade:
 	@echo 'Copying configuration.nix to /etc/nixos/'

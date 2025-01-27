@@ -71,6 +71,9 @@
       typescript
       lua
       yarn
+
+      # Other
+      glow
     ];
   imports = [
     # Include NixOS-WSL modules

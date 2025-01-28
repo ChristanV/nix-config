@@ -43,6 +43,7 @@
       podman-compose
       k9s
       ssm-session-manager-plugin
+      awscli2
 
       # LSP's for neovim
       terraform-ls

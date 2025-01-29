@@ -44,6 +44,8 @@
       k9s
       ssm-session-manager-plugin
       awscli2
+      docker_26
+      docker-compose
 
       # LSP's for neovim
       terraform-ls
@@ -80,7 +82,7 @@
     # Include NixOS-WSL modules
     <nixos-wsl/modules>
 
-    # vscode integration https://github.com/nix-community/nixos-vscode-server
+    # vscode integration https://github.com/nix-community/nixos-vscod?e-server
     (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
   ];
   
@@ -89,13 +91,16 @@
     "terraform"
   ];
 
+  # Docker
+  virtualisation.docker.enable = true;
+
   services.vscode-server.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   users.groups.podman = {};
   users.users."${username}" = {
-    extraGroups = [ "podman" ];
+    extraGroups = [ "podman" "docker" ];
   };
   
   # Base WSL setup
@@ -146,9 +151,8 @@
     alias kcgd='kc get deploy -l app.kubernetes.io/instance='
     alias kctp='kc top pods --containers -l app.kubernetes.io/instance='
 
-    # Workaround alias
-    alias docker='sudo podman'
-    alias docker-compose='sudo podman compose'
+    # Fix for ollama for neovim
+    export XDG_RUNTIME_DIR="/tmp/"
 
     export EDITOR="nvim"
     export KUBE_CONFIG_PATH=~/.kube/config

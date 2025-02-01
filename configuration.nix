@@ -77,6 +77,7 @@
 
       # Other
       glow
+      nvidia-container-toolkit
     ];
   imports = [
     # Include NixOS-WSL modules
@@ -86,17 +87,55 @@
     (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
   ];
   
-  # Licenced Packages
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "terraform"
-  ];
+  # Licenced/Unfree Packages
+  nixpkgs.config = {
+    allowUnfree = false;
+    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "terraform" "nvidia-x11" "nvidia-persistenced" "nvidia-settings"
+    ];
+  };
 
   # Docker
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+      daemon.settings = {
+        features.cdi = true;
+        cdi-spec-dirs = ["/home/${username}/.cdi"];
+      };
+    };
+    daemon.settings = {
+      features.cdi = true;
+    };
+  };
 
-  services.vscode-server.enable = true;
+  hardware = {
+    nvidia = {
+      modesetting.enable = true;
+      open = false;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.production;
+    };
+    nvidia-container-toolkit.enable = true;
+    graphics = {
+      enable = true;
+    };
+  };
+
+  services = {
+    xserver = {
+      videoDrivers = ["nvidia"];
+    };
+    vscode-server = {
+      enable = true;
+    };
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  programs.nix-ld.enable = true;
 
   users.groups.podman = {};
   users.users."${username}" = {
@@ -181,7 +220,6 @@
       }
     '';
   };
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -39,8 +39,6 @@
       flyctl
       sops
       gnupg
-      podman
-      podman-compose
       k9s
       ssm-session-manager-plugin
       awscli2
@@ -146,9 +144,8 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  users.groups.podman = {};
   users.users."${username}" = {
-    extraGroups = [ "podman" "docker" ];
+    extraGroups = [ "docker" ];
   };
   
   # Base WSL setup
@@ -204,32 +201,8 @@
 
     export EDITOR="nvim"
     export KUBE_CONFIG_PATH=~/.kube/config
-    export PODMAN_IGNORE_CGROUPSV1_WARNING=true
     PROMPT_COMMAND=${prompt_command}'printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"'
   '';
-
-  # Setup podman
-  environment.etc."containers/registries.conf" = {
-    text = ''
-      unqualified-search-registries = ["docker.io"]
-    '';
-  };
-
-  environment.etc."containers/policy.json" = {
-    text = ''
-      {
-        "default": [{
-            "type": "insecureAcceptAnything"
-          }],
-        "transports":{
-            "docker-daemon":{
-                "": [{"type":"insecureAcceptAnything"}]
-            }
-         }
-      }
-    '';
-  };
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

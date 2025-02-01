@@ -86,13 +86,20 @@
     # vscode integration https://github.com/nix-community/nixos-vscod?e-server
     (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
   ];
-  
-  # Licenced/Unfree Packages
+
+  # Licenced/Unfree/Broken Packages
   nixpkgs.config = {
     allowUnfree = false;
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "terraform" "nvidia-x11" "nvidia-persistenced" "nvidia-settings"
+      "terraform" "nvidia-x11"
     ];
+    allowBroken = false;
+  };
+
+  # Allow linked libraries
+  programs.nix-ld = {
+      enable = true;
+      package = pkgs.nix-ld-rs; # Fix for vscode 24.05
   };
 
   # Docker
@@ -114,19 +121,23 @@
   hardware = {
     nvidia = {
       modesetting.enable = true;
+      nvidiaSettings = false;
       open = false;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.production;
     };
-    nvidia-container-toolkit.enable = true;
-    graphics = {
+    nvidia-container-toolkit = {
       enable = true;
+      mount-nvidia-executables = false;
+    };
+    opengl = {
+	    enable = true;
+      driSupport32Bit = true;
+      setLdLibraryPath = true;
     };
   };
 
   services = {
     xserver = {
-      videoDrivers = ["nvidia"];
+      videoDrivers = [ "nvidia" ];
     };
     vscode-server = {
       enable = true;
@@ -134,8 +145,6 @@
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  programs.nix-ld.enable = true;
 
   users.groups.podman = {};
   users.users."${username}" = {
@@ -220,6 +229,7 @@
       }
     '';
   };
+
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

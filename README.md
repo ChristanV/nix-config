@@ -21,22 +21,32 @@ In Powershell run
 * `wsl --import NixOS .\NixOS\ nixos-wsl.tar.gz --version 2`
 * `wsl -d NixOS`
 
-### 2. Setup NixOs
+### 2. Setup NixOs first install
 * `sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable`
 * `sudo nix-channel --update && sudo nixos-rebuild switch`
 * `nix-env -iA nixos.neovim` # Optional step if you want to rename wsl username & hostname (or use own editor preference)
 * `nix-env -iA nixos.git && nix-env -iA nixos.gnumake`
 
 Clone the repo and edit variables if needed (change username and hostname)
-Copy configuration.nix in /etc/nixos/configuration.nix and run `sudo nixos-rebuild switch`
+Copy configuration.nix in /etc/nixos/configuration.nix and run `sudo nixos-rebuild boot` (Not switch as it may misconfigure on first setup)
 
 Alternatively run using the included makefile.
 
-* `sudo make switch`
+* `sudo make boot`
 
 On first install restart NixOs WSL distro on powershell
 
-`wsl --terminate NixOs`
+* `wsl -t NixOs`
+
+Start a shell inside NixOS and immediately exit it to apply the new generation
+
+* `wsl -d NixOS --user root exit`
+
+Stop distro again
+
+* `wsl -t NixOs`
+
+Then can open again with default username applied and can continue as normal
 
 ### 3. Set NixOs as default WSL Distro
 In Powershell run  

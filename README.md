@@ -71,3 +71,6 @@ Set the following in your `.wslconf`
     [wsl2]
     networkingMode=mirrored
     dnsTunneling=false
+
+### Getting docker to run with Nvidia containers
+Reference: https://github.com/nix-community/NixOS-WSL/discussions/487

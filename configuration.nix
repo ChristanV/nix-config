@@ -61,6 +61,7 @@
       gopls
       nodePackages.typescript-language-server
       helm-ls
+      nixd
 
       # Development
       terraform
@@ -98,11 +99,13 @@
   programs.nix-ld = {
       enable = true;
       package = pkgs.nix-ld-rs; # Fix for vscode 24.05
+      libraries = config.hardware.opengl.extraPackages;
   };
 
   # Docker
   virtualisation.docker = {
     enable = true;
+    daemon.settings.features.cdi = true;
     rootless = {
       enable = true;
       setSocketVariable = true;
@@ -110,33 +113,15 @@
         features.cdi = true;
         cdi-spec-dirs = ["/home/${username}/.cdi"];
       };
-    };
-    daemon.settings = {
-      features.cdi = true;
-    };
+    };    
   };
-
-  hardware = {
-    nvidia = {
-      modesetting.enable = true;
-      nvidiaSettings = false;
-      open = false;
-    };
-    nvidia-container-toolkit = {
-      enable = true;
-      mount-nvidia-executables = false;
-    };
-    opengl = {
-	    enable = true;
-      driSupport32Bit = true;
-      setLdLibraryPath = true;
-    };
+  
+  hardware.nvidia-container-toolkit = {
+    enable = true;
+    mount-nvidia-executables = false;
   };
 
   services = {
-    xserver = {
-      videoDrivers = [ "nvidia" ];
-    };
     vscode-server = {
       enable = true;
     };
@@ -156,6 +141,7 @@
     wslConf.network.generateResolvConf = false;
     wslConf.boot.command = ""; #Default startup commands
     wslConf.user.default = username;
+    useWindowsDriver = true;
 
     extraBin = with pkgs; [
       { src = "${coreutils}/bin/mkdir"; }

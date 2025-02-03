@@ -108,7 +108,7 @@
     daemon.settings.features.cdi = true;
     rootless = {
       enable = true;
-      setSocketVariable = true;
+      setSocketVariable = false;
       daemon.settings = {
         features.cdi = true;
         cdi-spec-dirs = ["/home/${username}/.cdi"];

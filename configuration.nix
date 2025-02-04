@@ -77,6 +77,7 @@
       # Other
       glow
       nvidia-container-toolkit
+      steampipe
     ];
   imports = [
     # Include NixOS-WSL modules

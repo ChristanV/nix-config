@@ -13,12 +13,14 @@ Make sure the following is installed for this quickstart.
 
 Download the WSL distribution for NixOS follow reference link below.
 
-Reference: https://nixos.wiki/wiki/WSL
+https://github.com/nix-community/NixOS-WSL/releases/tag/2411.6.0
+
+Reference: https://nix-community.github.io/NixOS-WSL/install.html
 Packages: https://search.nixos.org/packages
 
 In Powershell run
 * `wsl --update`
-* `wsl --import NixOS .\NixOS\ nixos-wsl.tar.gz --version 2`
+* `wsl --install --from-file nixos.wsl`
 * `wsl -d NixOS`
 
 ### 2. Setup NixOs first install

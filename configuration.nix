@@ -55,7 +55,8 @@
       lua-language-server
       nodePackages.typescript-language-server
       nodePackages.bash-language-server
-      java-language-server
+      jdt-language-server
+
       dockerfile-language-server-nodejs
       pyright
       gopls
@@ -75,6 +76,8 @@
       yarn
 
       # Other
+      starship
+      nushell
       glow
       nvidia-container-toolkit
       steampipe
@@ -91,7 +94,7 @@
   nixpkgs.config = {
     allowUnfree = false;
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "terraform" "nvidia-x11"
+      "terraform" "nvidia-x11" "nvidia-settings"
     ];
     allowBroken = false;
   };
@@ -117,23 +120,30 @@
     };    
   };
   
-  hardware.nvidia-container-toolkit = {
-    enable = true;
-    mount-nvidia-executables = false;
+  hardware = {
+    nvidia-container-toolkit = {
+      enable = true;
+      mount-nvidia-executables = false;
+    };
+    nvidia = {
+      open = true;
+    };
   };
 
   services = {
     vscode-server = {
       enable = true;
     };
+    xserver.videoDrivers = [ "nvidia" ];
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   users.users."${username}" = {
     extraGroups = [ "docker" ];
+    shell = pkgs.nushell;
   };
-  
+
   # Base WSL setup
   wsl = {
     enable = true;

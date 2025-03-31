@@ -77,10 +77,11 @@
 
       # Other
       starship
-      nushell
+      zsh
       glow
       nvidia-container-toolkit
       steampipe
+      tmux
     ];
   imports = [
     # Include NixOS-WSL modules
@@ -141,8 +142,50 @@
 
   users.users."${username}" = {
     extraGroups = [ "docker" ];
-    shell = pkgs.nushell;
+    shell = pkgs.zsh;
   };
+
+  programs.zsh = {
+    enable = true;
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
+    ohMyZsh = {
+      enable = true;
+      theme = "agnoster";
+      plugins = [ "git" "z" "history" "sudo" ];
+    };
+  };
+
+  environment.etc."zshrc".text = ''
+    eval "$(starship init zsh)"
+    alias kc='kubectl'
+    alias kctx='kubectx'
+    alias kns='kubens'
+    alias tf='terraform'
+    alias tg='terragrunt'
+    alias vi='nvim .'
+    alias nixr='sudo nixos-rebuild switch'
+    alias nixb='nixos-rebuild build'
+    alias nixs='nix-shell'
+    alias ll='ls -alF'
+    alias la='ls -A'
+    alias l='ls -CF'
+    alias lg=lazygit
+    alias kcgp='kc get pods -l app.kubernetes.io/instance='
+    alias kcgd='kc get deploy -l app.kubernetes.io/instance='
+    alias kctp='kc top pods --containers -l app.kubernetes.io/instance='
+
+    # Fix for ollama for neovim
+    export XDG_RUNTIME_DIR="/tmp/"
+
+    export EDITOR="nvim"
+    export KUBE_CONFIG_PATH=~/.kube/config
+
+    precmd() {
+      printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
+    }
+
+  '';
 
   # Base WSL setup
   wsl = {

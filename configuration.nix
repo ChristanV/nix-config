@@ -185,6 +185,13 @@
       printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
     }
 
+    cat << EOF > ~/.config/starship.toml
+    [git_status]
+    style = 'bold green'
+
+    [git_branch]
+    style = 'bold blue'
+    EOF
   '';
 
   # Base WSL setup
@@ -217,32 +224,6 @@
   
   # DNS fix for WSL2
   networking.nameservers = ["8.8.8.8" "1.1.1.1"];
-
-  # Set bash aliases and default editor
-  environment.etc."bashrc".text = ''
-    alias kc='kubectl'
-    alias kctx='kubectx'
-    alias kns='kubens'
-    alias tf='terraform'
-    alias tg='terragrunt'
-    alias vi='nvim .'
-    alias nixr='sudo nixos-rebuild switch'
-    alias nixb='nixos-rebuild build'
-    alias nixs='nix-shell'
-    alias ll='ls -alF'
-    alias la='ls -A'
-    alias l='ls -CF'
-    alias kcgp='kc get pods -l app.kubernetes.io/instance='
-    alias kcgd='kc get deploy -l app.kubernetes.io/instance='
-    alias kctp='kc top pods --containers -l app.kubernetes.io/instance='
-
-    # Fix for ollama for neovim
-    export XDG_RUNTIME_DIR="/tmp/"
-
-    export EDITOR="nvim"
-    export KUBE_CONFIG_PATH=~/.kube/config
-    PROMPT_COMMAND=${prompt_command}'printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"'
-  '';
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

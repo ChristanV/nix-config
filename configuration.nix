@@ -5,9 +5,6 @@
     unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
     username = "christan"; # Use own username
     hostname = "chrisdevops"; # Use own hostname
-
-    # Workaround to To open a new pane and tab on windows terminal using same pwd
-    prompt_command = "\${PROMPT_COMMAND:+\"$PROMPT_COMMAND; \"}";
   in {
 
     # Using stable channel packages by default prefix with 'unstable.' 

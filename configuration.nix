@@ -188,6 +188,10 @@
 
     [git_branch]
     style = 'bold blue'
+
+    [directory]
+    truncation_length = 8
+    truncate_to_repo = false
     EOF
   '';
 

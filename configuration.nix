@@ -81,6 +81,7 @@
       nvidia-container-toolkit
       steampipe
       tmux
+      btop
     ];
   imports = [
     # Include NixOS-WSL modules

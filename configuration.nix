@@ -110,7 +110,7 @@
     daemon.settings.features.cdi = true;
     rootless = {
       enable = true;
-      setSocketVariable = true;
+      setSocketVariable = false;
       daemon.settings = {
         features.cdi = true;
         cdi-spec-dirs = ["/home/${username}/.cdi"];
@@ -149,7 +149,22 @@
     ohMyZsh = {
       enable = true;
       theme = "agnoster";
-      plugins = [ "git" "z" "history" "sudo" ];
+      plugins = [ 
+        "git"
+        "z"
+        "history"
+        "sudo" 
+        "docker"
+        "docker-compose"
+        "aws"
+        "azure"
+        "argocd"
+        "kubectl"
+        "kubectx"
+        "pip"
+        "ssh"
+        "terraform"
+      ];
     };
   };
 
@@ -183,6 +198,9 @@
     }
 
     cat << EOF > ~/.config/starship.toml
+    [kubernetes]
+    disabled = false
+
     [git_status]
     style = 'bold green'
 
@@ -192,6 +210,12 @@
     [directory]
     truncation_length = 8
     truncate_to_repo = false
+
+    [azure]
+    disabled = false
+    format = 'on [$symbol($subscription)]($style) '
+    symbol = '󰠅 '
+    style = 'blue bold'
     EOF
   '';
 

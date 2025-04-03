@@ -6,7 +6,7 @@
 pkgs.mkShell {
   buildInputs = [
     unstable.deno # If newer versions are required prefix with 'unstable.'
-    pkgs.nodejs_21 # Default to stable channel
+    pkgs.nodejs_20 # Default to stable channel
   ];
 
   shellHook = 

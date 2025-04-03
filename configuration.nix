@@ -71,6 +71,8 @@
       typescript
       lua
       yarn
+      k3s
+      minikube
 
       # Other
       starship

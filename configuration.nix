@@ -192,31 +192,11 @@
 
     export EDITOR="nvim"
     export KUBE_CONFIG_PATH=~/.kube/config
+    export STARSHIP_CONFIG=~/.config/starship-config/starship.toml
 
     precmd() {
       printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
     }
-
-    cat << EOF > ~/.config/starship.toml
-    [kubernetes]
-    disabled = false
-
-    [git_status]
-    style = 'bold green'
-
-    [git_branch]
-    style = 'bold blue'
-
-    [directory]
-    truncation_length = 8
-    truncate_to_repo = false
-
-    [azure]
-    disabled = false
-    format = 'on [$symbol($subscription)]($style) '
-    symbol = '󰠅 '
-    style = 'blue bold'
-    EOF
   '';
 
   # Base WSL setup

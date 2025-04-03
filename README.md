@@ -64,6 +64,8 @@ Known unstable items I am still trying to resolve.
 
 See samples folder for configuration files for nix shell for dev environments
 
+Nerdfonts is installed externally and added to windows terminal
+
 I have no idea how nix flakes work.
 
 ### WSL2 DNS fix

@@ -200,6 +200,15 @@
     precmd() {
       printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
     }
+    cat << EOF > ~/.zshrc
+    ZSH_HIGHLIGHT_STYLES[comment]='fg=8'                # gray
+    ZSH_HIGHLIGHT_STYLES[command]='fg=#769ff0'
+    ZSH_HIGHLIGHT_STYLES[alias]='fg=#769ff0'
+    ZSH_HIGHLIGHT_STYLES[function]='fg=#769ff0'
+    ZSH_HIGHLIGHT_STYLES[builtin]='fg=#769ff0'
+    ZSH_HIGHLIGHT_STYLES[globbing]='fg=red'
+    ZSH_HIGHLIGHT_STYLES[path]='fg=white'
+    EOF
   '';
 
   # Base WSL setup

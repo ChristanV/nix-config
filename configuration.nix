@@ -82,6 +82,7 @@
       steampipe
       tmux
       btop
+      fzf
     ];
   imports = [
     # Include NixOS-WSL modules
@@ -189,6 +190,7 @@
     alias kcgp='kc get pods -l app.kubernetes.io/instance='
     alias kcgd='kc get deploy -l app.kubernetes.io/instance='
     alias kctp='kc top pods --containers -l app.kubernetes.io/instance='
+    alias awsctx='export AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | fzf)'
 
     # Fix for ollama for neovim
     export XDG_RUNTIME_DIR="/tmp/"

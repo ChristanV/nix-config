@@ -53,6 +53,7 @@
       nodePackages.typescript-language-server
       nodePackages.bash-language-server
       jdt-language-server
+      postgres-lsp
 
       dockerfile-language-server-nodejs
       pyright

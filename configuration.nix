@@ -74,6 +74,7 @@
       yarn
       k3s
       minikube
+      jdk23
 
       # Other
       starship
@@ -84,6 +85,8 @@
       tmux
       btop
       fzf
+      plantuml
+      graphviz
     ];
   imports = [
     # Include NixOS-WSL modules

@@ -5,6 +5,11 @@
     unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
     username = "christan"; # Use own username
     hostname = "chrisdevops"; # Use own hostname
+
+    azure-cli = pkgs.azure-cli.withExtensions [
+      pkgs.azure-cli-extensions.bastion
+      pkgs.azure-cli-extensions.ssh
+    ];
   in {
 
     # Using stable channel packages by default prefix with 'unstable.' 
@@ -26,7 +31,6 @@
       kubectx
       kubelogin
       git
-      azure-cli
       postgresql
       eksctl
       lazygit
@@ -38,6 +42,7 @@
       gnupg
       k9s
       ssm-session-manager-plugin
+      azure-cli
       awscli2
       docker_26
       docker-compose
